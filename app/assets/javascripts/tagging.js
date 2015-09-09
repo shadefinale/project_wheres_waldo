@@ -2,13 +2,26 @@ var WW = WW || {}
 
 WW.model = (function(){
   var names = [];
+  var score = 600;
+
+  function scoreDecrement(){
+      score--;
+  }
+
+  function getScore(){
+    
+    return score;
+    
+  }
 
   function currentNames(){
     return names;
   }
 
   return {
-    currentNames, currentNames
+    currentNames: currentNames,
+    getScore: getScore,
+    scoreDecrement: scoreDecrement
   };
 })();
 
@@ -20,6 +33,14 @@ WW.controller = (function(){
     getCurrentTags();
     initListListener();
     initClickListener();
+    startGameLoop();
+  }
+
+  function startGameLoop(){
+    setInterval(function(){
+      WW.model.scoreDecrement();
+      WW.view.displayScore(WW.model.getScore());
+    },1000)
   }
 
   function getCurrentTags(){

@@ -1,8 +1,10 @@
 WW.view = (function(){
+  var $scoreDiv;
 
   function init(){
     initMouseMoveListener();
     initTagBuilder();
+    cacheElements();
   }
 
   function initMouseMoveListener(){
@@ -35,8 +37,17 @@ WW.view = (function(){
     $("#potentialTag").offset({top: yCoord, left: xCoord})
   }
 
+  function displayScore(newScore){
+    $scoreDiv.text("Score: " + newScore);
+  }
+
+  function cacheElements(){
+    $scoreDiv = $("#userScore")
+  }
+
   return {
     init: init,
-    moveTag, moveTag,
+    moveTag: moveTag,
+    displayScore: displayScore
   };
 })();
