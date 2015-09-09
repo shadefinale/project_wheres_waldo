@@ -22,8 +22,10 @@ WW.gameplay = (function(){
   function setNames(xhr){
     console.log(xhr);
     xhr.forEach(function(el) {
-      names.push(el.name);
+      names.push({name:el.name,id:el.id});
     })
+
+    console.log(names);
   }
 
   function initTagBuilder(){
@@ -74,6 +76,11 @@ WW.gameplay = (function(){
     // Clicking on a list element
     $("#img-container").on("click", ".options li", function(e){
       e.stopPropagation();
+      //console.log($(this).offset());
+      var target = $(this);
+      $.ajax({
+        url: ""
+      })
       var $parent = $(this).parents("#tagInProgress");
       $parent.children().remove();
       $parent.addClass("finalizedTag");
@@ -89,7 +96,7 @@ WW.gameplay = (function(){
   function attachList(target){
     target.append("<ul class='options'><div></div></ul>");
     names.forEach(function(el){
-      target.find("div").append("<li>" + el  +"</li>");
+      target.find("div").append("<li data-id=" + el.id + ">" + el.name  +"</li>");
     });
   }
 
