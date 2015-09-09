@@ -9,9 +9,9 @@ WW.model = (function(){
   }
 
   function getScore(){
-    
+
     return score;
-    
+
   }
 
   function currentNames(){
