@@ -24,11 +24,31 @@ WW.gameplay = (function(){
   function setTags(xhr){
     console.log(xhr);
     xhr.forEach(function(tag){
-      var storedDiv = $("<div id='finalizedTag' class='tag finalizedTag' style='top:"
+      var $storedDiv = $("<div id='finalizedTag' class='tag finalizedTag' style='top:"
                          + (tag.yoffset - 55) + "px; left:" + tag.xoffset + "px'>\
-                         <div>" + tag.character.name + "</div>")
-      $("#img-container").append(storedDiv);
+                         <div>" + tag.character.name + "</div></div>")
+
+      addDeleteButton($storedDiv, tag.id);
+      $("#img-container").append($storedDiv);
     })
+  }
+
+  function addDeleteButton(parent, targetID){
+    var $deleteButton = $("<div class='delete-btn'>X</div>").appendTo(parent);
+
+    $deleteButton.click(function(el){
+          el.stopPropagation();
+          el.preventDefault();
+          $.ajax({
+            url: "/tags/" + targetID + ".json",
+            type: "DELETE",
+            success : function() {
+              getRemainingNames();
+              $deleteButton.parent().remove()
+              console.log("success")
+            }
+          })
+        })
   }
 
   function getRemainingNames(){
@@ -104,13 +124,14 @@ WW.gameplay = (function(){
         url: "/tags",
         type: "POST",
         data: { tag: { character_id: target.data("id"), xoffset: target.offset().left, yoffset: target.offset().top } },
-        success : function(){
+        success : function(newTag){
           var $parent = target.parents("#tagInProgress");
           $parent.children().remove();
           $parent.addClass("finalizedTag");
           $parent.attr("id","finalizedTag");
           $parent.append("<div></div>")
           $parent.children().first().text(target.text());
+          addDeleteButton($parent, newTag.id);
           getRemainingNames();
         },
         error : function(xhr){ console.log (xhr) }

@@ -9,6 +9,16 @@ class TagsController < ApplicationController
     end
   end
 
+  def destroy
+    @tag = Tag.find(params[:id])
+
+    respond_to do |format|
+      if @tag.destroy
+        format.json { render :json => @tag}
+      end
+    end
+  end
+
   def index
     @tags = Tag.includes(:character)
 

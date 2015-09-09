@@ -30,10 +30,20 @@
   }
 
   #finalizedTag{
+    z-index: 20;
     border: solid blue 4px;
     width: 50px;
     height: 50px;
     position: absolute;
+  }
+
+  .delete-btn {
+    position: absolute;
+    width: 10% !important;
+    margin-top: 0px;
+    top: -65px;
+    right: 10px;
+    background-color: red !important;
   }
 
   #finalizedTag div{
@@ -42,6 +52,7 @@
     width: 100%;
     background-color: #ABCDEF;
   }
+
 
   .options{
     padding: 0;
