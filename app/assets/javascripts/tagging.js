@@ -1,13 +1,29 @@
 var WW = WW || {}
 
 WW.gameplay = (function(){
-  var names = ["Waldo", "Wenda", "Odlaw", "Wilma", "Wizard White", "Woof"]
+  var names = [];
 
   function init() {
+    getRemainingNames();
     initTagBuilder();
     initMouseMoveListener();
     initListListener();
     initClickListener();
+  }
+
+  function getRemainingNames(){
+    $.ajax({
+      url: '/characters',
+      type: "GET",
+      success: setNames,
+    })
+  }
+
+  function setNames(xhr){
+    console.log(xhr);
+    xhr.forEach(function(el) {
+      names.push(el.name);
+    })
   }
 
   function initTagBuilder(){
@@ -28,7 +44,7 @@ WW.gameplay = (function(){
     });
       $("#img-container").mouseleave(function(e){
       $(".finalizedTag").fadeOut();
-    });  
+    });
   }
 
   function initClickListener(){
