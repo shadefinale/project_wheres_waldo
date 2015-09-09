@@ -43,7 +43,7 @@ WW.gameplay = (function(){
             url: "/tags/" + targetID + ".json",
             type: "DELETE",
             success : function() {
-              getRemainingNames();
+              names.push({name:$deleteButton.parent().children().first().text(),id:targetID})
               $deleteButton.parent().remove()
               console.log("success")
             }
@@ -132,7 +132,12 @@ WW.gameplay = (function(){
           $parent.append("<div></div>")
           $parent.children().first().text(target.text());
           addDeleteButton($parent, newTag.id);
-          getRemainingNames();
+          for (var i = names.length - 1; i >= 0; i--) {
+            if(names[i].id == target.data("id")){
+              names.splice(i,1);
+              break;
+            }
+          };
         },
         error : function(xhr){ console.log (xhr) }
       })
