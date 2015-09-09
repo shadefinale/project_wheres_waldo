@@ -1,13 +1,23 @@
 var WW = WW || {}
 
-WW.gameplay = (function(){
+WW.model = (function(){
+  var names = [];
+
+  function currentNames(){
+    return names;
+  }
+
+  return {
+    currentNames, currentNames
+  };
+})();
+
+WW.controller = (function(){
   var names = [];
 
   function init() {
     getRemainingNames();
     getCurrentTags();
-    initTagBuilder();
-    initMouseMoveListener();
     initListListener();
     initClickListener();
   }
@@ -43,12 +53,8 @@ WW.gameplay = (function(){
         url: "/tags/" + targetID + ".json",
         type: "DELETE",
         success : function(xhr) {
-          console.log(xhr);
-          // console.log($deleteButton.parent().children().first().text())
           names.push({name:$deleteButton.parent().children().first().text(),id:xhr.character_id})
-          // console.log(names);
           $deleteButton.parent().remove()
-          // console.log("success")
         }
       })
     })
@@ -63,35 +69,13 @@ WW.gameplay = (function(){
   }
 
   function setNames(xhr){
-    // console.log(xhr);
     names = [];
     xhr.forEach(function(el) {
       names.push({name:el.name,id:el.id});
     })
-
-    // console.log(names);
   }
 
-  function initTagBuilder(){
-    $("#taggable").mouseover(function(){
-      if (!($("#potentialTag")[0] || $("#tagInProgress")[0])) {
-        $("#img-container").append("<div id='potentialTag' class='tag'></div>")
-      };
-    })
-  }
 
-  function initMouseMoveListener(){
-    $("#img-container").mousemove(function(e){
-      moveTag(e);
-    });
-
-    $("#img-container").mouseenter(function(e){
-      $(".finalizedTag").fadeIn();
-    });
-      $("#img-container").mouseleave(function(e){
-      $(".finalizedTag").fadeOut();
-    });
-  }
 
   function initClickListener(){
     // When we click to place a tag
@@ -103,7 +87,7 @@ WW.gameplay = (function(){
         $("#tagInProgress").children().first().children().slideUp(100);
         $("#tagInProgress").attr("id", "potentialTag");
         $("#potentialTag").children().remove();
-        moveTag(e);
+        WW.view.moveTag(e);
 
       } else {
         $("#potentialTag").attr("id", "tagInProgress");
@@ -155,22 +139,14 @@ WW.gameplay = (function(){
     });
   }
 
-  function moveTag(e){
-    var yCoord, xCoord;
-    yCoord = Math.min(Math.max(e.pageY - 25, 0), $("#taggable").height() - 50)
-    xCoord = Math.min(Math.max(e.pageX - 25, 0), $("#taggable").width() - 50)
-
-
-    $("#potentialTag").offset({top: yCoord, left: xCoord})
-  }
-
   return {
     init: init,
   };
 })();
 
 $(document).ready(function(){
-  WW.gameplay.init();
+  WW.view.init();
+  WW.controller.init();
 })
 
 
