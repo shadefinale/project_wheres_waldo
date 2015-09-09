@@ -37,13 +37,16 @@
     position: absolute;
   }
 
-  .delete-btn {
+  #finalizedTag .delete-btn {
     position: absolute;
-    width: 10% !important;
+    top: 0px;
+    width: 22%;
     margin-top: 0px;
-    top: -65px;
-    right: 10px;
-    background-color: red !important;
+    right: 0px;
+    background-color: red;
+    text-align:center;
+    cursor: pointer; 
+    cursor: hand;
   }
 
   #finalizedTag div{
