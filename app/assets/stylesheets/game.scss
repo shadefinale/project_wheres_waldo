@@ -17,35 +17,35 @@
   }
   #potentialTag{
     border: solid red 4px;
-    width: 100px;
-    height: 100px;
+    width: 50px;
+    height: 50px;
     position: absolute;
   }
 
   #tagInProgress{
     border: solid green 4px;
-    width: 100px;
-    height: 100px;
+    width: 50px;
+    height: 50px;
     position: absolute;
   }
 
   #finalizedTag{
     border: solid blue 4px;
-    width: 100px;
-    height: 100px;
+    width: 50px;
+    height: 50px;
     position: absolute;
   }
 
   #finalizedTag div{
     padding: 0;
-    margin-top: 105px;
+    margin-top: 55px;
     width: 100%;
     background-color: #ABCDEF;
   }
 
   .options{
     padding: 0;
-    margin-top: 105px;
+    margin-top: 55px;
     width: 100%;
     background-color: white;
     list-style: none;

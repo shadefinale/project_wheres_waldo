@@ -1,7 +1,7 @@
 var WW = WW || {}
 
 WW.gameplay = (function(){
-  var names = ["Waldo", "Wenda", "Odlaw", "Wilma", "Wizard Whitebeard", "Woof"]
+  var names = ["Waldo", "Wenda", "Odlaw", "Wilma", "Wizard White", "Woof"]
 
   function init() {
     initTagBuilder();
@@ -21,7 +21,14 @@ WW.gameplay = (function(){
   function initMouseMoveListener(){
     $("#img-container").mousemove(function(e){
       moveTag(e);
-    })
+    });
+
+    $("#img-container").mouseenter(function(e){
+      $(".finalizedTag").fadeIn();
+    });
+      $("#img-container").mouseleave(function(e){
+      $(".finalizedTag").fadeOut();
+    });  
   }
 
   function initClickListener(){
@@ -53,7 +60,8 @@ WW.gameplay = (function(){
       e.stopPropagation();
       var $parent = $(this).parents("#tagInProgress");
       $parent.children().remove();
-      $parent.attr("id", "finalizedTag");
+      $parent.addClass("finalizedTag");
+      $parent.attr("id","finalizedTag");
       $parent.append("<div></div>")
       $parent.children().first().text(this.innerText);
       if (names.indexOf(this.innerText) >= 0) {
@@ -71,8 +79,8 @@ WW.gameplay = (function(){
 
   function moveTag(e){
     var yCoord, xCoord;
-    yCoord = Math.min(Math.max(e.pageY - 50, 0), $("#taggable").height() - 100)
-    xCoord = Math.min(Math.max(e.pageX - 50, 0), $("#taggable").width() - 100)
+    yCoord = Math.min(Math.max(e.pageY - 25, 0), $("#taggable").height() - 50)
+    xCoord = Math.min(Math.max(e.pageX - 25, 0), $("#taggable").width() - 50)
 
 
     $("#potentialTag").offset({top: yCoord, left: xCoord})
