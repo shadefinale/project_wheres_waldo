@@ -37,18 +37,21 @@ WW.gameplay = (function(){
     var $deleteButton = $("<div class='delete-btn'>X</div>").appendTo(parent);
 
     $deleteButton.click(function(el){
-          el.stopPropagation();
-          el.preventDefault();
-          $.ajax({
-            url: "/tags/" + targetID + ".json",
-            type: "DELETE",
-            success : function() {
-              names.push({name:$deleteButton.parent().children().first().text(),id:targetID})
-              $deleteButton.parent().remove()
-              console.log("success")
-            }
-          })
-        })
+      el.stopPropagation();
+      el.preventDefault();
+      $.ajax({
+        url: "/tags/" + targetID + ".json",
+        type: "DELETE",
+        success : function(xhr) {
+          console.log(xhr);
+          // console.log($deleteButton.parent().children().first().text())
+          names.push({name:$deleteButton.parent().children().first().text(),id:xhr.character_id})
+          // console.log(names);
+          $deleteButton.parent().remove()
+          // console.log("success")
+        }
+      })
+    })
   }
 
   function getRemainingNames(){
