@@ -5,10 +5,30 @@ WW.gameplay = (function(){
 
   function init() {
     getRemainingNames();
+    getCurrentTags();
     initTagBuilder();
     initMouseMoveListener();
     initListListener();
     initClickListener();
+  }
+
+  function getCurrentTags(){
+    $.ajax({
+      url: '/tags',
+      type: "GET",
+      success: setTags,
+      error: function(x) { console.log (x) }
+    })
+  }
+
+  function setTags(xhr){
+    console.log(xhr);
+    xhr.forEach(function(tag){
+      var storedDiv = $("<div id='finalizedTag' class='tag finalizedTag' style='top:"
+                         + (tag.yoffset - 55) + "px; left:" + tag.xoffset + "px'>\
+                         <div>" + tag.character.name + "</div>")
+      $("#img-container").append(storedDiv);
+    })
   }
 
   function getRemainingNames(){
@@ -20,12 +40,13 @@ WW.gameplay = (function(){
   }
 
   function setNames(xhr){
-    console.log(xhr);
+    // console.log(xhr);
+    names = [];
     xhr.forEach(function(el) {
       names.push({name:el.name,id:el.id});
     })
 
-    console.log(names);
+    // console.log(names);
   }
 
   function initTagBuilder(){
@@ -78,18 +99,23 @@ WW.gameplay = (function(){
       e.stopPropagation();
       //console.log($(this).offset());
       var target = $(this);
+      // console.log({ tag: { character_id: target.data("id"), xoffset: target.offset().left, yoffset: target.offset().top} });
       $.ajax({
-        url: ""
+        url: "/tags",
+        type: "POST",
+        data: { tag: { character_id: target.data("id"), xoffset: target.offset().left, yoffset: target.offset().top } },
+        success : function(){
+          var $parent = target.parents("#tagInProgress");
+          $parent.children().remove();
+          $parent.addClass("finalizedTag");
+          $parent.attr("id","finalizedTag");
+          $parent.append("<div></div>")
+          $parent.children().first().text(target.text());
+          getRemainingNames();
+        },
+        error : function(xhr){ console.log (xhr) }
       })
-      var $parent = $(this).parents("#tagInProgress");
-      $parent.children().remove();
-      $parent.addClass("finalizedTag");
-      $parent.attr("id","finalizedTag");
-      $parent.append("<div></div>")
-      $parent.children().first().text(this.innerText);
-      if (names.indexOf(this.innerText) >= 0) {
-        delete names[names.indexOf(this.innerText)];
-      }
+
     })
   }
 
