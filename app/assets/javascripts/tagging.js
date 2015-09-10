@@ -23,7 +23,7 @@ WW.model = (function(){
   }
 
   function scoreDecrement(){
-    
+
     if (score > 0) score--;
 
   }
@@ -61,7 +61,15 @@ WW.controller = (function(){
     setInterval(function(){
       WW.model.scoreDecrement();
       WW.view.displayScore(WW.model.getScore());
+      checkGameOver();
     },1000)
+  }
+
+  function checkGameOver(){
+    if (WW.model.getScore() <= 0){
+      alert("Game Over!");
+      location.reload();
+    }
   }
 
   function getCurrentTags(){

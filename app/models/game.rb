@@ -8,6 +8,6 @@ class Game < ActiveRecord::Base
   end
 
   def game_over?
-    score > 0
+    return score < 0
   end
 end
