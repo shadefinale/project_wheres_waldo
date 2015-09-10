@@ -1,6 +1,7 @@
 class CharactersController < ApplicationController
   before_action :find_or_create_game
-
+  before_action :check_game_over 
+  
   def index
     @game_id = Game.find_by(token: session[:game_id]).id
     p @game_id

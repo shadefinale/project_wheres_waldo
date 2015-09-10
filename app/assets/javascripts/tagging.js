@@ -4,8 +4,28 @@ WW.model = (function(){
   var names = [];
   var score = 600;
 
+  function init(){
+    calcScore();
+  }
+
+  function calcScore(){
+    $.ajax({
+      url: '/game.json',
+      type: 'GET',
+      success: function(newScore){
+        score = Math.max(0,Math.round(newScore));
+      },
+      error: function(xhr){
+        console.log(xhr)
+      }
+
+    })
+  }
+
   function scoreDecrement(){
-      score--;
+    
+    if (score > 0) score--;
+
   }
 
   function getScore(){
@@ -19,6 +39,7 @@ WW.model = (function(){
   }
 
   return {
+    init:init,
     currentNames: currentNames,
     getScore: getScore,
     scoreDecrement: scoreDecrement
@@ -168,6 +189,7 @@ WW.controller = (function(){
 $(document).ready(function(){
   WW.view.init();
   WW.controller.init();
+  WW.model.init();
 })
 
 

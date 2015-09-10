@@ -4,10 +4,19 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   def find_or_create_game
-    unless session[:game_id]
+    unless session[:game_id] 
       session[:game_id] = SecureRandom.urlsafe_base64(nil, false)
     end
+    @game =  Game.find_or_create_by(token: session[:game_id])
+ 
+  end
 
-    return Game.find_or_create_by(token: session[:game_id])
+  def check_game_over 
+    if @game.game_over?
+     
+      session[:game_id] = nil
+      flash.now[:notice] = "Your game has ended, you lost :("
+      redirect_to root_path
+    end
   end
 end

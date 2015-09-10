@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
-  get "game", to: "game#game"
+  root to: "games#game"
   resources :tags, only: [:create, :index, :destroy]
   resources :characters, only: :index
+  resource :game, only: :show
 end
